@@ -14,6 +14,7 @@ next if they have watched Planet Hulk with the description “Will he save their
 """
 # Import spacy library and load the nlp model
 import spacy
+
 nlp = spacy.load('en_core_web_md')
 
 # Open the movies.txt file for reading the content, and save as list to the movies_content variable.
@@ -32,32 +33,36 @@ for line in movies_content:
     cleaned_description = ' '.join(split_line)
     cleaned_movies_content.append(cleaned_description)
 
-
 current_movie = "Planet Hulk"
 current_movie_description = "Will he save their world or destroy it? When the Hulk becomes too dangerous for the Earth, the Illuminati trick Hulk into a shuttle and launch him into space to a planet where the Hulk can live in peace. Unfortunately, Hulk land on the planet Sakaar where he is sold into slavery and trained as a gladiator."
 
-# Compare current movie description
 
-movie_description_model = nlp(current_movie_description)
+def recommend_next_movie(movie_description):
+    # Function to Compare current movie description with descriptions of other movies,
+    # and then recommend the movie wit the highest semantic similarity score (SpaCy).
 
-print(f"\nCurrent Movie: {current_movie}\n")
-print(f"==== Film Similarity Scores ====\n")
+    movie_description_model = nlp(movie_description)
 
-highest_score = 0
-highest_description = ''
+    print(f"\nCurrent Movie: {current_movie}\n")
+    print(f"==== Film Similarity Scores ====\n")
 
-for description in cleaned_movies_content:
-    similarity = nlp(description).similarity(movie_description_model)
-    print(f"Film Description:\n{description}\n      Similarity Score: {similarity}\n")
-    if similarity > highest_score:
-        highest_score = similarity
-        highest_description = description
+    highest_score = 0
+    highest_description = ''
 
-print("==== OUR RECOMMENDATION ====\n")
+    for description in cleaned_movies_content:
+        similarity = nlp(description).similarity(movie_description_model)
+        print(f"Film Description:\n{description}\n      Similarity Score: {similarity}\n")
+        if similarity > highest_score:
+            highest_score = similarity
+            highest_description = description
 
-for line in movies_content:
-    if highest_description in line:
-        print(f"Our recommendation is: \n      {line}")
+    print("==== OUR RECOMMENDATION ====\n")
+
+    for line in movies_content:
+        if highest_description in line:
+            print(f"Our recommendation is: \n      {line}")
 
 
+# Call function
 
+recommend_next_movie(current_movie_description)
