@@ -21,6 +21,7 @@ nlp = spacy.load('en_core_web_md')
 # Clean the data using a for loop so it only checks the similarity of the description (not Movie X, or escape characters).
 read_file = open('movies.txt', 'r')
 movies_content = read_file.readlines()
+read_file.close()
 
 cleaned_movies_content = []
 
@@ -39,7 +40,7 @@ current_movie_description = "Will he save their world or destroy it? When the Hu
 
 def recommend_next_movie(movie_description):
     # Function to Compare current movie description with descriptions of other movies,
-    # and then recommend the movie wit the highest semantic similarity score (SpaCy).
+    # and then recommend the movie with the highest semantic similarity score (SpaCy).
 
     movie_description_model = nlp(movie_description)
 
